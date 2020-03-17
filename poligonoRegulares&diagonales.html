@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poligonoRegulares&diagonales</title>
+</head>
+
+<body>
+    <div id="campos" align="center">
+        <p>Lados del pol&iacute;gono</p> <input type="numer" id="ladosPoligono" placeholder="Lados del poligono"
+            onkeyup="calcularDiagonales()"></br>
+        <p>Diagonales del pol&iacute;gono</p><input type="number" id="diagonalesPoligono"
+            placeholder="No se puede calcular" disabled>
+    </div>
+
+    <div id="canvas" align="center">
+        <canvas id="caja" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        function calcularDiagonales() {
+            var ladosPoligono = document.getElementById('ladosPoligono').value;
+            var diagonalesPoligono = 0;
+            diagonalesPoligono = (ladosPoligono * (ladosPoligono - 3)) / 2;
+            document.getElementById("diagonalesPoligono").value = diagonalesPoligono;
+            dibiujarPoligono(ladosPoligono);
+        }
+
+
+
+        function dibiujarPoligono(ladosPoligono) {
+
+            var radio = 150;
+            var l = ladosPoligono;
+            var radianes = Math.PI * (360 / l) / 180;
+            var xInicial = 200;
+            var yInicial = 200;
+            var puntosX = [];
+            var puntosY = [];
+
+            puntosX.length = 0;
+            puntosY.length = 0;
+
+            canvas = document.getElementById('caja');
+            canvastx = canvas.getContext('2d');
+            canvastx.clearRect(0, 0, canvas.width, canvas.height);
+            canvastx.beginPath();
+            // canvastx.lineWidth = 1;
+            canvastx.strokeStyle = '#FFB33D';
+
+
+            for (var i = 0; i <= l; i++) {
+                var x = radio * Math.cos(i * radianes) + xInicial;
+                var y = radio * Math.sin(i * radianes) + yInicial;
+                console.log(Math.cos(i * radianes), Math.sin(i * radianes));
+                puntosX.push(x);
+                puntosY.push(y);
+                canvastx.lineTo(x, y);
+            }
+
+            if (l < 50) {
+                for (var i = 0; i <= l; i++) {
+                    for (var j = 1; j <= l; j++) {
+                        canvastx.moveTo(puntosX[i], puntosY[i]);
+                        canvastx.lineTo(puntosX[j], puntosY[j]);
+                    }
+                }
+            }
+            canvastx.stroke();
+        }
+    </script>
+
+</body>
+
+</html>
